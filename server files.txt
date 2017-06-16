@@ -1,0 +1,23 @@
+
+var http= require('http');
+var url = require( 'url' );
+var fs = require('fs');
+
+function server_func(req, res) {
+        var url_parsed = url.parse( req.url , true );
+        var filename = url_parsed.path;
+        if ( filename.indexOf(".jpg")!= -1)
+        {
+                res.writeHead(200, {'Content-Type': 'image/jpg' });
+                res.end( fs.readFileSync( 'public/' + filename ),'binary' );}
+        else
+
+        {
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end( fs.readFileSync( 'public/' + filename ) );}
+};
+
+var server = http.createServer( server_func );
+
+server.listen(1337);
+

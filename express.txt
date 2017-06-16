@@ -1,0 +1,92 @@
+function per( n ) {
+        var st=[];
+        var pas= 1;
+        var a='';
+        function initializare(k) {
+                st[k]=1-pas;
+                                                                        }
+
+        function Am_successor(k){
+                if(st[k]<n) {
+                        st[k]=st[k]+ pas;
+                        return 1;
+
+                } else
+                        return 0;
+        }
+
+
+         function solutie(k){
+
+                 return k==n;
+         }
+         function tipar(k){
+                var arr = [];
+                for(var i=1;i<=k;i++){
+                        arr.push( st[i] );
+                }
+                a = a + arr.toString() + "\n";
+        }
+
+         function e_valid(k) {
+                for(var i=1;i<=k-1;i++){
+                        if(st[k]==st[i]){
+                                return 0;
+                        }
+                }
+                return 1;
+         }
+
+
+
+         function back(k){
+                var as=0;
+                var ev=1;
+                initializare(k);
+                while(k>0){
+                        do {
+                                as=Am_successor(k);
+                                ev=e_valid(k);
+                        } while(as==1 && ev==0); 
+				if(as==1) {
+                                if(solutie(k) && e_valid(k))
+                                        tipar(k);
+                                else{
+                                        k++;
+                                        initializare(k);
+                                                                                                                                }
+                        } else {
+                                k--;
+                        }
+                }
+         }
+        back( 1 );
+        return a;
+}
+
+
+
+
+var express = require('express')
+var app = express()
+var http= require('http');
+var url = require( 'url' );
+var fs = require('fs');
+
+
+app.use('/per/:n', function (req, res, next) {
+         var n= req.params.n;
+         res.send( per(n));
+});
+
+
+app.use('/public', express.static('public'));
+
+var server = app.listen(1337, function () {
+
+          var host = server.address().address
+          var port = server.address().port
+
+
+})
+
